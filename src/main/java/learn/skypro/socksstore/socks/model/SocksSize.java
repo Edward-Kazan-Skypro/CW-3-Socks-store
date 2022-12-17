@@ -1,4 +1,4 @@
-package learn.skypro.socksstore.product.socks.model;
+package learn.skypro.socksstore.socks.model;
 
 public enum SocksSize {
     S (36, 37),
@@ -11,5 +11,13 @@ public enum SocksSize {
     private final int shoe_size_max = 47;
 
     SocksSize(int shoe_size_min, int shoe_size_max) {
+    }
+
+    public int getShoe_size_min() {
+        return shoe_size_min;
+    }
+
+    public int getShoe_size_max() {
+        return shoe_size_max;
     }
 }

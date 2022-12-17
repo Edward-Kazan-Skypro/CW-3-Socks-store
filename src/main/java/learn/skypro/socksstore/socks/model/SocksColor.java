@@ -1,4 +1,4 @@
-package learn.skypro.socksstore.product.socks.model;
+package learn.skypro.socksstore.socks.model;
 
 public enum SocksColor {
     BLACK ("черный"),
@@ -13,4 +13,10 @@ public enum SocksColor {
     SocksColor(String color) {
         this.color = color;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+
 }

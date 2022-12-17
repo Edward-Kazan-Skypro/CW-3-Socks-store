@@ -1,4 +1,4 @@
-package learn.skypro.socksstore.product.socks.model;
+package learn.skypro.socksstore.socks.model;
 
 import lombok.Data;
 
@@ -10,7 +10,6 @@ public class Socks {
     private int cottonPart;
     private SocksColor socksColor;
     private SocksSize socksSize;
-    private boolean inStock;
 
     public Socks(int cottonPart, SocksColor socksColor, SocksSize socksSize) {
         if (cottonPart > 0 && cottonPart <= 100) {
