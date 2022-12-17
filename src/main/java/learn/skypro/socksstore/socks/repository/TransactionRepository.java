@@ -80,89 +80,54 @@ public class TransactionRepository {
     public String viewAllTransactions() {
         String result = "";
         int counter = 0;
-        result += "Список транзакций:\n";
-        result += "Поступление на склад:\n";
-        //Сформируем список транзакций - ПОСТУПЛЕНИЕ на склад
-        //А для этого сформируем список уникальных дат
+        String commonHeader = "Список транзакций (движение товара по складу):";
+        String incomingHeader = "Поступление на склад:";
+        String outgoingHeader = "Выдача со склада:";
+        String cancellationHeader = "Списание брака со склада:";
+        String incomingBody = "";
+        String outgoingBody = "";
+        String cancellationBody = "";
+
+        //сформируем список уникальных дат
         TreeSet<String> sortedDates = new TreeSet<>();
-        for (TransactionSocks externalStep : getTransactionList().values()) {
-            if (externalStep.getTransactionsType().equals(TransactionsType.INCOMING)) {
-                sortedDates.add(externalStep.getDateCreateTransaction());
-            }
+        for (TransactionSocks transaction : getTransactionList().values()) {
+                sortedDates.add(transaction.getDateCreateTransaction());
         }
         //Теперь у нас есть список уникальных дат
         //На его основе и будем формировать текст
         for (String date: sortedDates){
             result += "дата - " + date + "\n";
-            for (TransactionSocks internalStep : getTransactionList().values()) {
-                if (internalStep.getDateCreateTransaction().equals(date)){
-                    result += internalStep.getTimeCreateTransaction() + " " +
-                            "цвет " + internalStep.getSocksColor() + ", " +
-                            "размер " + internalStep.getSocksSize() + ", " +
-                            "содержание хлопка " + internalStep.getCottonPart() + "%, " +
-                            "количество " + internalStep.getQuantity() + " пар.\n";
-                    counter++;
+            for (TransactionSocks transaction : getTransactionList().values()) {
+                if (transaction.getDateCreateTransaction().equals(date)){
+                    if (transaction.getTransactionsType().equals(TransactionsType.INCOMING)){
+                        incomingBody += transaction.getTimeCreateTransaction() + " " +
+                                "цвет " + transaction.getSocksColor() + ", " +
+                                "размер " + transaction.getSocksSize() + ", " +
+                                "содержание хлопка " + transaction.getCottonPart() + "%, " +
+                                "количество " + transaction.getQuantity() + " пар.\n";
+                    }
+                    if (transaction.getTransactionsType().equals(TransactionsType.OUTGOING)){
+                        outgoingBody += transaction.getTimeCreateTransaction() + " " +
+                                "цвет " + transaction.getSocksColor() + ", " +
+                                "размер " + transaction.getSocksSize() + ", " +
+                                "содержание хлопка " + transaction.getCottonPart() + "%, " +
+                                "количество " + transaction.getQuantity() + " пар.\n";
+                    }
+                    if (transaction.getTransactionsType().equals(TransactionsType.CANCELLATION)){
+                        cancellationBody += transaction.getTimeCreateTransaction() + " " +
+                                "цвет " + transaction.getSocksColor() + ", " +
+                                "размер " + transaction.getSocksSize() + ", " +
+                                "содержание хлопка " + transaction.getCottonPart() + "%, " +
+                                "количество " + transaction.getQuantity() + " пар.\n";
+                    }
                 }
             }
-        }
-        if (counter == 0) {
-            result += "- поступлений на склад не было.";
-        }
-        sortedDates.clear();
-        counter = 0;
-        result += "Выбытие со склада:\n";
-        //Сформируем список транзакций - ВЫБЫТИЕ со склада
-        //А для этого сформируем список уникальных дат
-        for (TransactionSocks externalStep : getTransactionList().values()) {
-            if (externalStep.getTransactionsType().equals(TransactionsType.OUTGOING)) {
-                sortedDates.add(externalStep.getDateCreateTransaction());
-            }
-        }
-        //Теперь у нас есть список уникальных дат
-        //На его основе и будем формировать текст
-        for (String date: sortedDates){
-            result += "дата - " + date + "\n";
-            for (TransactionSocks internalStep : getTransactionList().values()) {
-                if (internalStep.getDateCreateTransaction().equals(date)){
-                    result += internalStep.getTimeCreateTransaction() + " " +
-                            "цвет " + internalStep.getSocksColor() + ", " +
-                            "размер " + internalStep.getSocksSize() + ", " +
-                            "содержание хлопка " + internalStep.getCottonPart() + "%, " +
-                            "количество " + internalStep.getQuantity() + " пар.\n";
-                    counter++;
-                }
-            }
-        }
-        if (counter == 0) {
-            result += "- выбытие не происходило.\n";
-        }
-        sortedDates.clear();
-        counter = 0;
-        result += "Списание со склада:\n";
-        //Сформируем список транзакций - СПИСАНИЕ со склада
-        //А для этого сформируем список уникальных дат
-        for (TransactionSocks externalStep : getTransactionList().values()) {
-            if (externalStep.getTransactionsType().equals(TransactionsType.CANCELLATION)) {
-                sortedDates.add(externalStep.getDateCreateTransaction());
-            }
-        }
-        //Теперь у нас есть список уникальных дат
-        //На его основе и будем формировать текст
-        for (String date: sortedDates){
-            result += "дата - " + date + "\n";
-            for (TransactionSocks internalStep : getTransactionList().values()) {
-                if (internalStep.getDateCreateTransaction().equals(date)){
-                    result += internalStep.getTimeCreateTransaction() + " " +
-                            "цвет " + internalStep.getSocksColor() + ", " +
-                            "размер " + internalStep.getSocksSize() + ", " +
-                            "содержание хлопка " + internalStep.getCottonPart() + "%, " +
-                            "количество " + internalStep.getQuantity() + " пар.\n";
-                    counter++;
-                }
-            }
-        }
-        if (counter == 0) {
-            result += "- списания не было.";
+            result += incomingHeader + "\n" +
+                    incomingBody + "\n" +
+                    outgoingHeader + "\n" +
+                    outgoingBody + "\n" +
+                    cancellationHeader + "\n" +
+                    cancellationBody + "\n";
         }
         return result;
     }
