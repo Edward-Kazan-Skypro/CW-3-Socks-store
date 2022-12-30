@@ -36,7 +36,7 @@ public class SocksService {
                                 SocksSize socksSize,
                                 int cottonPart,
                                 int quantity) {
-        transactionRepository.addSTransaction(cottonPart,
+        transactionRepository.addTransaction(cottonPart,
                 socksColor,
                 socksSize,
                 quantity,
@@ -51,7 +51,7 @@ public class SocksService {
                           SocksSize socksSize,
                           int cottonPart,
                           int quantity) {
-        transactionRepository.addSTransaction(cottonPart, socksColor, socksSize, quantity, TransactionsType.CANCELLATION);
+        transactionRepository.addTransaction(cottonPart, socksColor, socksSize, quantity, TransactionsType.CANCELLATION);
         return storageUnitRepository.delete(cottonPart,
                 socksColor,
                 socksSize,
@@ -62,7 +62,7 @@ public class SocksService {
                                       SocksSize socksSize,
                                       int cottonPart,
                                       int quantity) {
-        transactionRepository.addSTransaction(cottonPart, socksColor, socksSize, quantity, TransactionsType.OUTGOING);
+        transactionRepository.addTransaction(cottonPart, socksColor, socksSize, quantity, TransactionsType.OUTGOING);
         return storageUnitRepository.outFromStorage(cottonPart,
                 socksColor,
                 socksSize,

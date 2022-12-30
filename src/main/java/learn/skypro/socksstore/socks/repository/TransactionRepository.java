@@ -10,7 +10,6 @@ import learn.skypro.socksstore.socks.model.*;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -29,11 +28,11 @@ public class TransactionRepository {
     static Long idCounter = 1L;
     TreeMap<Long, TransactionSocks> transactionList = new TreeMap<>();
 
-    public void addSTransaction(int cottonPart,
-                                SocksColor socksColor,
-                                SocksSize socksSize,
-                                int quantity,
-                                TransactionsType transactionsType
+    public boolean addTransaction(int cottonPart,
+                               SocksColor socksColor,
+                               SocksSize socksSize,
+                               int quantity,
+                               TransactionsType transactionsType
                                 ) {
         idCounter = 1L;
         while (transactionList.containsKey(idCounter)) {
@@ -52,6 +51,7 @@ public class TransactionRepository {
                 transactionsType));
         transactionsFileService.saveTransactionsListToJsonFile(jsonFromList());
         transactionsFileService.saveTransactionsToTxtFile(viewAllTransactions());
+        return true;
     }
 
     private String jsonFromList() {

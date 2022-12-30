@@ -22,24 +22,28 @@ public class TransactionsFileService {
     @Value("${name.of.transactionsTXT.file}")
     private String transactionsTxtFileName;
 
-    public void cleanTransactionsListJson(){
+    public boolean cleanTransactionsListJson(){
         try {
             Path path = Path.of(transactionsListFilePath, transactionsListFileName);
             Files.deleteIfExists(path);
             Files.createFile(path);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-    public void cleanTransactionsListTxt(){
+    public boolean cleanTransactionsListTxt(){
         try {
             Path path = Path.of(transactionsTxtFilePath, transactionsTxtFileName);
             Files.deleteIfExists(path);
             Files.createFile(path);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public File getTxtFile() {
@@ -56,28 +60,33 @@ public class TransactionsFileService {
         return null;
     }
 
-    public void saveTransactionsListToJsonFile(String json) {
+    public boolean saveTransactionsListToJsonFile(String json) {
         try {
             cleanTransactionsListJson();
             Files.writeString(Path.of(transactionsListFilePath, transactionsListFileName), json);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-    public void saveTransactionsToTxtFile(String txt) {
+    public boolean saveTransactionsToTxtFile(String txt) {
         try {
             cleanTransactionsListTxt();
             Files.writeString(Path.of(transactionsTxtFilePath, transactionsTxtFileName), txt);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public String readTransactionsListFromJsonFile(){
         if (Files.exists(Path.of(transactionsListFilePath, transactionsListFileName))) {
             try {
-                Files.readString(Path.of(transactionsListFilePath, transactionsListFileName));
+                String json = Files.readString(Path.of(transactionsListFilePath, transactionsListFileName));
+                return json;
             } catch (IOException e) {
                 e.printStackTrace();
             }
