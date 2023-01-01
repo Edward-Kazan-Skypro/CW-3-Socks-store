@@ -16,16 +16,14 @@ public class SocksFileService {
     @Value("${name.of.socksListJson.file}")
     private String socksListFileName;
 
-    public boolean cleanSocksListJson(){
+    public void cleanSocksListJson(){
         try {
             Path path = Path.of(socksListFilePath, socksListFileName);
             Files.deleteIfExists(path);
             Files.createFile(path);
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public File getSocksListJson() {
@@ -54,5 +52,13 @@ public class SocksFileService {
             }
         }
         return null;
+    }
+
+    public String getSocksListFilePath() {
+        return socksListFilePath;
+    }
+
+    public String getSocksListFileName() {
+        return socksListFileName;
     }
 }
