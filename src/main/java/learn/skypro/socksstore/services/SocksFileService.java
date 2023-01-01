@@ -30,15 +30,13 @@ public class SocksFileService {
         return new File(socksListFilePath + "/" + socksListFileName);
     }
 
-    public boolean saveSocksListToJsonFile(String json) {
+    public void saveSocksListToJsonFile(String json) {
         try {
             cleanSocksListJson();
             Files.writeString(Path.of(socksListFilePath, socksListFileName), json);
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     public String readSocksListFromJsonFile(){
