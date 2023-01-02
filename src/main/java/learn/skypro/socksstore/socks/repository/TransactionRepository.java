@@ -49,8 +49,8 @@ public class TransactionRepository {
                 onlyDate,
                 onlyTime,
                 transactionsType));
-        transactionsFileService.saveTransactionsListToJsonFile(jsonFromList());
-        transactionsFileService.saveTransactionsToTxtFile(viewAllTransactions());
+        transactionsFileService.saveTransactionsListToJsonFile(jsonFromList(), transactionsFileService.getTransactionsListFilePath(), transactionsFileService.getTransactionsListFileName());
+        transactionsFileService.saveTransactionsToTxtFile(viewAllTransactions(), transactionsFileService.getTransactionsTxtFilePath(), transactionsFileService.getTransactionsTxtFileName());
         return true;
     }
 
@@ -66,7 +66,7 @@ public class TransactionRepository {
 
     private TreeMap<Long, TransactionSocks> listFromFile() {
         try {
-            String json = transactionsFileService.readTransactionsListFromJsonFile();
+            String json = transactionsFileService.readTransactionsListFromJsonFile(transactionsFileService.getTransactionsListFilePath(), transactionsFileService.getTransactionsListFileName());
             if (StringUtils.isNotEmpty(json) || StringUtils.isNotBlank(json)) {
                 transactionList = new ObjectMapper().readValue(json, new TypeReference<>() {
                 });

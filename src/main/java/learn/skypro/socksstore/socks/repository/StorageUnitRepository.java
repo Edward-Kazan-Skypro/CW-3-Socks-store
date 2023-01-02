@@ -36,8 +36,8 @@ public class StorageUnitRepository {
             if (storageUnitList.isEmpty()) {
                 storageUnitList.put(idCounter, bufferStorageUnit);
                 idCounter++;
-                socksFileService.cleanSocksListJson();
-                socksFileService.saveSocksListToJsonFile(jsonFromList());
+                socksFileService.cleanSocksListJson(socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
+                socksFileService.saveSocksListToJsonFile(jsonFromList(), socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
                 return true;
             }
             if (checkContainsInputValues(cottonPart, socksColor, socksSize)) {
@@ -46,8 +46,8 @@ public class StorageUnitRepository {
                 bufferStorageUnit.setQuantity(newQuantity);
                 storageUnitList.remove(currentKey);
                 storageUnitList.put(currentKey, bufferStorageUnit);
-                socksFileService.cleanSocksListJson();
-                socksFileService.saveSocksListToJsonFile(jsonFromList());
+                socksFileService.cleanSocksListJson(socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
+                socksFileService.saveSocksListToJsonFile(jsonFromList(), socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
                 return true;
             }
             if (!checkContainsInputValues(cottonPart, socksColor, socksSize)) {
@@ -57,8 +57,8 @@ public class StorageUnitRepository {
                 }
                 storageUnitList.put(idCounter, bufferStorageUnit);
                 idCounter++;
-                socksFileService.cleanSocksListJson();
-                socksFileService.saveSocksListToJsonFile(jsonFromList());
+                socksFileService.cleanSocksListJson(socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
+                socksFileService.saveSocksListToJsonFile(jsonFromList(), socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
                 return true;
             }
         }
@@ -95,8 +95,8 @@ public class StorageUnitRepository {
         Long bufferKey = findKey(cottonPart, socksColor, socksSize);
         if (storageUnitList.containsKey(bufferKey)) {
             storageUnitList.remove(bufferKey);
-            socksFileService.cleanSocksListJson();
-            socksFileService.saveSocksListToJsonFile(jsonFromList());
+            socksFileService.cleanSocksListJson(socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
+            socksFileService.saveSocksListToJsonFile(jsonFromList(), socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
             return true;
         }
         return false;
@@ -112,14 +112,14 @@ public class StorageUnitRepository {
                 bufferStorageUnit.setQuantity(bufferQuantity);
                 storageUnitList.remove(bufferKey);
                 storageUnitList.put(bufferKey, bufferStorageUnit);
-                socksFileService.cleanSocksListJson();
-                socksFileService.saveSocksListToJsonFile(jsonFromList());
+                socksFileService.cleanSocksListJson(socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
+                socksFileService.saveSocksListToJsonFile(jsonFromList(), socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
                 return true;
             }
             if (bufferQuantity == 0) {
                 storageUnitList.remove(bufferKey);
-                socksFileService.cleanSocksListJson();
-                socksFileService.saveSocksListToJsonFile(jsonFromList());
+                socksFileService.cleanSocksListJson(socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
+                socksFileService.saveSocksListToJsonFile(jsonFromList(), socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
                 return true;
             }
         }
@@ -128,7 +128,7 @@ public class StorageUnitRepository {
 
     private HashMap<Long, StorageUnit> listFromFile() {
         try {
-            String json = socksFileService.readSocksListFromJsonFile();
+            String json = socksFileService.readSocksListFromJsonFile(socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
             if (StringUtils.isNotEmpty(json) || StringUtils.isNotBlank(json)) {
                 storageUnitList = new ObjectMapper().readValue(json, new TypeReference<>() {
                 });

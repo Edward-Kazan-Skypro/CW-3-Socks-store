@@ -31,7 +31,7 @@ public class UploadDownloadController {
     @GetMapping("socksListExport")
     @Operation(summary = "Сохранение файла со списком имеющихся на складе носков на компьютер пользователя  в формате json")
     public ResponseEntity<InputStreamResource> downloadSocksListAsJson() throws FileNotFoundException {
-        File file = socksFileService.getSocksListJson();
+        File file = socksFileService.getSocksListJson(socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
         if (file.exists()) {
             InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
             return ResponseEntity.ok().
@@ -47,7 +47,7 @@ public class UploadDownloadController {
     @PostMapping(value = "socksListImport", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Загрузка сохраненного файла со списком имеющихся на складе носков с компьютера пользователя")
     public ResponseEntity<Void> uploadSocksListFile(@RequestParam MultipartFile inputFile) {
-        File file = socksFileService.getSocksListJson();
+        File file = socksFileService.getSocksListJson(socksFileService.getSocksListFilePath(), socksFileService.getSocksListFileName());
         if (!(file.length() == 0)) {
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 IOUtils.copy(inputFile.getInputStream(), fos);
@@ -62,7 +62,7 @@ public class UploadDownloadController {
     @GetMapping("transactionsListExport")
     @Operation(summary = "Сохранение файла со списком транзакций на компьютер пользователя в формате json")
     public ResponseEntity<InputStreamResource> downloadTransactionsListAsJson() throws FileNotFoundException {
-        File file = transactionsFileService.getTransactionsListJson();
+        File file = transactionsFileService.getTransactionsListJson(transactionsFileService.getTransactionsListFilePath(), transactionsFileService.getTransactionsListFileName());
         if (file.exists()) {
             InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
             return ResponseEntity.ok().
@@ -78,7 +78,7 @@ public class UploadDownloadController {
     @PostMapping(value = "transactionsListImport", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Загрузка сохраненного файла со списком транзакций с компьютера пользователя")
     public ResponseEntity<Void> uploadTransactionsListFile(@RequestParam MultipartFile inputFile) {
-        File file = transactionsFileService.getTransactionsListJson();
+        File file = transactionsFileService.getTransactionsListJson(transactionsFileService.getTransactionsListFilePath(), transactionsFileService.getTransactionsListFileName());
         if (!(file.length() == 0)) {
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 IOUtils.copy(inputFile.getInputStream(), fos);
@@ -93,7 +93,7 @@ public class UploadDownloadController {
    @GetMapping("saveTransactionsAsTxt")
     @Operation(summary = "Сохранение файла с данными приход/выбытие товара(носков) на компьютер пользователя в формате txt")
     public ResponseEntity<InputStreamResource> downloadRecipesAsTxt() throws FileNotFoundException {
-        File file = transactionsFileService.getTxtFile();
+        File file = transactionsFileService.getTxtFile(transactionsFileService.getTransactionsTxtFilePath(), transactionsFileService.getTransactionsTxtFileName());
         if (file.exists()) {
             InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
             return ResponseEntity.ok().

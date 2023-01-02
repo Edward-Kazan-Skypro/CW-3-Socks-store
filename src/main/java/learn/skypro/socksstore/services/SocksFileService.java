@@ -16,30 +16,34 @@ public class SocksFileService {
     @Value("${name.of.socksListJson.file}")
     private String socksListFileName;
 
-    public void cleanSocksListJson(){
+    public boolean cleanSocksListJson(String socksListFilePath, String socksListFileName){
         try {
             Path path = Path.of(socksListFilePath, socksListFileName);
             Files.deleteIfExists(path);
             Files.createFile(path);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-    public File getSocksListJson() {
+    public File getSocksListJson(String socksListFilePath, String socksListFileName) {
         return new File(socksListFilePath + "/" + socksListFileName);
     }
 
-    public void saveSocksListToJsonFile(String json) {
+    public boolean saveSocksListToJsonFile(String json, String socksListFilePath, String socksListFileName) {
         try {
-            cleanSocksListJson();
+            cleanSocksListJson(socksListFilePath, socksListFileName);
             Files.writeString(Path.of(socksListFilePath, socksListFileName), json);
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
-    public String readSocksListFromJsonFile(){
+    public String readSocksListFromJsonFile(String socksListFilePath, String socksListFileName){
         String result;
         if (Files.exists(Path.of(socksListFilePath, socksListFileName))) {
             try {
