@@ -21,7 +21,7 @@ public class TransactionsFileService {
     @Value("${name.of.transactionsTXT.file}")
     private String transactionsTxtFileName;
 
-    public boolean cleanTransactionsListJson(String transactionsListFilePath, String transactionsListFileName) {
+    public boolean cleanTransactionsListJson() {
         try {
             Path path = Path.of(transactionsListFilePath, transactionsListFileName);
             Files.deleteIfExists(path);
@@ -33,7 +33,7 @@ public class TransactionsFileService {
         return false;
     }
 
-    public boolean cleanTransactionsTxt(String transactionsTxtFilePath, String transactionsTxtFileName) {
+    public boolean cleanTransactionsTxt() {
         try {
             Path path = Path.of(transactionsTxtFilePath, transactionsTxtFileName);
             Files.deleteIfExists(path);
@@ -45,17 +45,17 @@ public class TransactionsFileService {
         return false;
     }
 
-    public File getTxtFile(String transactionsTxtFilePath, String transactionsTxtFileName) {
+    public File getTxtFile() {
         return new File(transactionsTxtFilePath + "/" + transactionsTxtFileName);
     }
 
-    public File getTransactionsListJson(String transactionsListFilePath, String transactionsListFileName) {
+    public File getTransactionsListJson() {
         return new File(transactionsListFilePath + "/" + transactionsListFileName);
     }
 
-    public boolean saveTransactionsListToJsonFile(String json, String transactionsListFilePath, String transactionsListFileName) {
+    public boolean saveTransactionsListToJsonFile(String json) {
         try {
-            cleanTransactionsListJson(transactionsListFilePath, transactionsListFileName);
+            cleanTransactionsListJson();
             Files.writeString(Path.of(transactionsListFilePath, transactionsListFileName), json);
             return true;
         } catch (IOException e) {
@@ -64,9 +64,9 @@ public class TransactionsFileService {
         return false;
     }
 
-    public boolean saveTransactionsToTxtFile(String txt, String transactionsTxtFilePath, String transactionsTxtFileName) {
+    public boolean saveTransactionsToTxtFile(String txt) {
         try {
-            cleanTransactionsTxt(transactionsTxtFilePath, transactionsTxtFileName);
+            cleanTransactionsTxt();
             Files.writeString(Path.of(transactionsTxtFilePath, transactionsTxtFileName), txt);
             return true;
         } catch (IOException e) {
@@ -75,7 +75,7 @@ public class TransactionsFileService {
         return false;
     }
 
-    public String readTransactionsListFromJsonFile(String transactionsListFilePath, String transactionsListFileName) {
+    public String readTransactionsListFromJsonFile() {
         if (Files.exists(Path.of(transactionsListFilePath, transactionsListFileName))) {
             try {
                 String json = Files.readString(Path.of(transactionsListFilePath, transactionsListFileName));
